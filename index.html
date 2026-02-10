@@ -3,23 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
     <title>SPRA Scottish Shore 2026</title>
     <style>
         :root { --ios-bg: #f2f2f7; --ios-card: rgba(255, 255, 255, 0.85); }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--ios-bg); margin: 0; padding: 0; }
-        header { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 25px 15px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
-        .container { max-width: 500px; margin: 15px auto; padding: 0 15px 100px; }
-        .result-card { background: var(--ios-card); backdrop-filter: blur(10px); margin-bottom: 12px; border-radius: 14px; padding: 20px; border: 0.5px solid rgba(255,255,255,0.7); display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: background 0.2s; }
-        .result-card:active { background: rgba(230, 230, 235, 0.8); }
+        body { font-family: -apple-system, sans-serif; background: var(--ios-bg); margin: 0; padding: 0; }
+        
+        header { 
+            background: rgba(255, 255, 255, 0.5); 
+            backdrop-filter: blur(20px); 
+            -webkit-backdrop-filter: blur(20px); 
+            padding: 30px 15px 20px; 
+            text-align: center; 
+            position: sticky; top: 0; z-index: 100; 
+            border-bottom: 0.5px solid rgba(0,0,0,0.1); 
+        }
+
+        .container { max-width: 500px; margin: 15px auto; padding: 0 15px 120px; }
+        
+        .result-card { 
+            background: var(--ios-card); 
+            backdrop-filter: blur(10px); 
+            margin-bottom: 12px; 
+            border-radius: 14px; 
+            padding: 22px; 
+            border: 0.5px solid rgba(255,255,255,0.7); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            text-decoration: none; 
+            color: inherit; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04); 
+        }
+
         .arrow { color: #c7c7cc; font-weight: bold; font-size: 1.2rem; }
-        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #8e8e93; }
+        
+        .app-tip {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+        }
+
+        footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #8e8e93; }
     </style>
 </head>
 <body>
 
 <header>
     <div style="font-weight: 700; font-size: 1.4rem;">SPRA Scottish Shore</div>
-    <div style="font-size: 0.85rem; color: #8e8e93;">2026 Results Portal</div>
+    <div style="font-size: 0.85rem; color: #8e8e93;">Official Results Portal</div>
 </header>
 
 <div class="container">
@@ -31,6 +70,11 @@
     <a href="pairs.pdf?v=1" class="result-card"><span>6. Secret Pairs Winners</span><span class="arrow">›</span></a>
     <a href="totals.pdf?v=1" class="result-card"><span>7. Competition Totals</span><span class="arrow">›</span></a>
     <a href="performance.pdf?v=1" class="result-card"><span>8. Zone Performance</span><span class="arrow">›</span></a>
+
+    <div class="app-tip">
+        <strong>💡 Pro Tip for Fullscreen:</strong><br>
+        Tap the <strong>Share</strong> button (square with arrow) and select <strong>"Add to Home Screen"</strong> to use this like a real app!
+    </div>
 </div>
 
 <footer>
