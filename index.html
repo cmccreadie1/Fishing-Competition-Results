@@ -2,25 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SPRA Scottish Shore 2026</title>
     <style>
         :root {
             --ios-bg: #f2f2f7;
             --ios-card: rgba(255, 255, 255, 0.85);
+            --ios-blue: #007aff;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--ios-bg);
             margin: 0; padding: 0;
+            overflow-x: hidden;
         }
 
         header {
-            background: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            padding: 20px 15px;
+            padding: 25px 15px;
             text-align: center;
             position: sticky; top: 0; z-index: 100;
             border-bottom: 0.5px solid rgba(0,0,0,0.1);
@@ -32,72 +34,145 @@
             background: var(--ios-card);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             border-radius: 14px;
             padding: 20px;
             border: 0.5px solid rgba(255,255,255,0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.03);
         }
 
-        .card-header { display: flex; justify-content: space-between; align-items: center; font-weight: 600; }
-
-        .table-window {
+        /* Fullscreen Overlay */
+        #overlay {
             display: none;
-            margin-top: 15px;
-            width: 100%;
-            overflow: auto; /* Handles both vertical and horizontal scroll */
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
             background: #fff;
-            max-height: 500px; /* Limits height so page doesn't get too long */
-            -webkit-overflow-scrolling: touch;
+            z-index: 2000;
+            flex-direction: column;
         }
 
-        .table-window img { width: 200%; height: auto; display: block; } /* 200% width forces it to be zoomable by swiping */
+        .close-btn {
+            position: fixed;
+            top: 30px; right: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 3000;
+            font-weight: bold;
+        }
 
-        .hint { font-size: 0.75rem; color: #8e8e93; text-align: center; margin: 8px 0; display: none; }
+        /* Zoom and Rotation Container */
+        .zoom-container {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+        }
+
+        #full-img {
+            max-width: 90vh;
+            height: auto;
+            transform: rotate(90deg); /* Forces landscape */
+            transition: width 0.2s ease;
+            cursor: move;
+        }
+
+        @media (orientation: landscape) {
+            #full-img { transform: rotate(0deg); max-width: 95vw; }
+        }
+
+        /* Bottom Zoom Control Overlay */
+        .zoom-controls {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.9);
+            padding: 10px 20px;
+            border-radius: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 3000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            align-items: center;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="font-weight: 700; font-size: 1.35rem;">SPRA Scottish Shore</div>
-    <div style="font-size: 0.85rem; color: #8e8e93;">Official Results Portal</div>
+    <div style="font-weight: 700; font-size: 1.4rem;">SPRA Scottish Shore</div>
+    <div style="font-size: 0.85rem; color: #8e8e93;">Official 2026 Results</div>
 </header>
 
 <div class="container">
-    <div class="result-card" onclick="toggle('r1')">
-        <div class="card-header"><span>1. Individual Final Standings</span><span style="color:#c7c7cc">›</span></div>
-        <p id="hr1" class="hint">Swipe up/down and left/right to view</p>
-        <div id="r1" class="table-window"><img src="Leader Board.png"></div>
-    </div>
+    <div class="result-card" onclick="openImage('Leader Board.png')"><span>1. Individual Final Standings</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Team Standings.png')"><span>2. Final Team Standings</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 1.png')"><span>3. Zone Standing Day 1</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 2.png')"><span>4. Zone Standing Day 2</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Biggest Fish.png')"><span>5. Biggest Fish Top 10</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Secret Pairs.png')"><span>6. Secret Pairs Winners</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Day Totals Chart.png')"><span>7. Competition Totals</span><span style="color:#c7c7cc">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Performance Chart.png')"><span>8. Zone Performance</span><span style="color:#c7c7cc">›</span></div>
+</div>
 
-    <div class="result-card" onclick="toggle('r2')">
-        <div class="card-header"><span>2. Final Team Standings</span><span style="color:#c7c7cc">›</span></div>
-        <p id="hr2" class="hint">Swipe up/down and left/right to view</p>
-        <div id="r2" class="table-window"><img src="Team Standings.png"></div>
-    </div>
-
-    <div class="result-card" onclick="toggle('r3')">
-        <div class="card-header"><span>3. Zone Standing Day 1</span><span style="color:#c7c7cc">›</span></div>
-        <p id="hr3" class="hint">Swipe up/down and left/right to view</p>
-        <div id="r3" class="table-window"><img src="Zone Day 1.png"></div>
-    </div>
+<div id="overlay">
+    <div class="close-btn" onclick="closeImage()">✕</div>
     
+    <div class="zoom-container" id="z-cont">
+        <img id="full-img" src="">
     </div>
+
+    <div class="zoom-controls">
+        <button onclick="zoomOut()" style="border:none; background:none; font-size:1.2rem;">➖</button>
+        <span style="font-size: 0.8rem; font-weight: bold; color: #666;">ZOOM</span>
+        <button onclick="zoomIn()" style="border:none; background:none; font-size:1.2rem;">➕</button>
+    </div>
+</div>
 
 <script>
-    function toggle(id) {
-        let win = document.getElementById(id);
-        let hint = document.getElementById('h' + id);
-        if (win.style.display === "block") {
-            win.style.display = "none";
-            hint.style.display = "none";
-        } else {
-            win.style.display = "block";
-            hint.style.display = "block";
+    let currentScale = 90;
+
+    function openImage(src) {
+        const img = document.getElementById('full-img');
+        const overlay = document.getElementById('overlay');
+        img.src = src;
+        img.style.width = '90vh';
+        currentScale = 90;
+        overlay.style.display = 'flex';
+        
+        // Hide browser bars
+        if (overlay.requestFullscreen) { overlay.requestFullscreen(); }
+        else if (overlay.webkitRequestFullscreen) { overlay.webkitRequestFullscreen(); }
+    }
+
+    function closeImage() {
+        document.getElementById('overlay').style.display = 'none';
+        if (document.exitFullscreen) { document.exitFullscreen(); }
+        else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
+    }
+
+    function zoomIn() {
+        currentScale += 20;
+        document.getElementById('full-img').style.width = currentScale + 'vh';
+    }
+
+    function zoomOut() {
+        if (currentScale > 50) {
+            currentScale -= 20;
+            document.getElementById('full-img').style.width = currentScale + 'vh';
         }
     }
 </script>
+
 </body>
 </html>
