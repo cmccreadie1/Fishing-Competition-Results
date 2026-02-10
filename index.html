@@ -2,213 +2,146 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>SPRA Scottish Shore Championships 2026</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>SPRA Scottish Shore 2026</title>
     <style>
         :root {
-            --primary: #004d40;
-            --secondary: #00695c;
-            --accent: #26a69a;
-            --bg: #f8fafc;
-            --text: #1e293b;
+            --ios-bg: #f2f2f7;
+            --ios-card: rgba(255, 255, 255, 0.75);
+            --ios-blue: #007aff;
+            --ios-text: #000000;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg);
-            margin: 0;
-            padding: 0;
-            color: var(--text);
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--ios-bg);
+            margin: 0; padding: 0;
+            color: var(--ios-text);
+            overflow-x: hidden;
         }
 
         header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 25px 15px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 15px;
             text-align: center;
             position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            top: 0; z-index: 100;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
         }
 
-        header h1 { margin: 0; font-size: 1.3rem; letter-spacing: 0.5px; }
-        header p { margin: 5px 0 0; font-size: 0.85rem; opacity: 0.9; }
+        .fullscreen-btn {
+            background: var(--ios-blue);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+            cursor: pointer;
+        }
 
         .container {
-            max-width: 600px;
-            margin: 20px auto;
+            max-width: 500px;
+            margin: 10px auto;
             padding: 0 15px 100px;
         }
 
-        .instructions {
-            text-align: center;
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-bottom: 20px;
-        }
-
         .result-card {
-            background: white;
-            margin-bottom: 12px;
+            background: var(--ios-card);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            margin-bottom: 8px;
             border-radius: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 18px 20px;
-            cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-            border: 1px solid #e2e8f0;
-            transition: background-color 0.2s;
+            border: 0.5px solid rgba(255, 255, 255, 0.5);
         }
 
-        .result-card:active { background-color: #f1f5f9; }
-
-        .card-info { font-weight: 600; font-size: 1rem; color: var(--primary); }
-
-        .view-icon {
-            color: var(--accent);
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        /* Modern Fullscreen Overlay */
+        /* Fullscreen Overlay */
         #overlay {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
-            flex-direction: column;
-            overflow-y: auto; /* Allows scrolling long tables */
-            padding: 20px 0;
-        }
-
-        .overlay-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px 15px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .overlay-title {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Smaller, Transparent Close Button */
-        .close-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.3);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ffffff;
+            z-index: 2000;
             justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            backdrop-filter: blur(5px);
+            align-items: center;
         }
 
-        #overlay img {
-            width: 95%;
-            max-width: 1200px;
+        .close-btn {
+            position: absolute;
+            top: 30px; right: 20px;
+            background: rgba(0, 0, 0, 0.1);
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 2100;
+        }
+
+        #full-img {
+            max-width: 98vh; /* Scale based on height to fit rotation */
             height: auto;
-            display: block;
-            margin: 0 auto;
-            border-radius: 4px;
+            transform: rotate(90deg);
+            transition: transform 0.3s ease;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-            color: #94a3b8;
+        @media (orientation: landscape) {
+            #full-img {
+                transform: rotate(0deg);
+                max-width: 95vw;
+                max-height: 95vh;
+            }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>SPRA Scottish Shore 2026</h1>
-    <p>Championship Results Portal</p>
+    <div style="font-weight: 700; font-size: 1.2rem;">SPRA Scottish Shore</div>
+    <div style="font-size: 0.8rem; color: #8e8e93;">2026 Results Portal</div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">Maximize View</button>
 </header>
 
 <div class="container">
-    <p class="instructions">Tap to view. Pinch to zoom on tables. <br>Tap background to close.</p>
-
-    <div class="result-card" onclick="openImage('Leader Board.png', 'Individual Final Standings')">
-        <span class="card-info">1. Individual Final Standings</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Team Standings.png', 'Final Team Standings')">
-        <span class="card-info">2. Final Team Standings</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Zone Day 1.png', 'Zone Standing Day 1')">
-        <span class="card-info">3. Zone Standing Day 1</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Zone Day 2.png', 'Zone Standing Day 2')">
-        <span class="card-info">4. Zone Standing Day 2</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Biggest Fish.png', 'Biggest Fish Top 10')">
-        <span class="card-info">5. Biggest Fish Top 10</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Secret Pairs.png', 'Secret Pairs Winners')">
-        <span class="card-info">6. Secret Pairs Winners</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Day Totals Chart.png', 'Competition Totals')">
-        <span class="card-info">7. Competition Totals</span>
-        <span class="view-icon">→</span>
-    </div>
-
-    <div class="result-card" onclick="openImage('Zone Performance Chart.png', 'Zone Performance')">
-        <span class="card-info">8. Zone Performance</span>
-        <span class="view-icon">→</span>
-    </div>
+    <div class="result-card" onclick="openImage('Leader Board.png')"><span>1. Individual Final Standings</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Team Standings.png')"><span>2. Final Team Standings</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 1.png')"><span>3. Zone Standing Day 1</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 2.png')"><span>4. Zone Standing Day 2</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Biggest Fish.png')"><span>5. Biggest Fish Top 10</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Secret Pairs.png')"><span>6. Secret Pairs Winners</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Day Totals Chart.png')"><span>7. Competition Totals</span><span style="color:#8e8e93">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Performance Chart.png')"><span>8. Zone Performance</span><span style="color:#8e8e93">›</span></div>
 </div>
 
-<div id="overlay" onclick="closeImage()">
-    <div class="overlay-header">
-        <div class="overlay-title" id="img-title"></div>
-        <div class="close-btn">✕</div>
-    </div>
-    <img id="full-img" src="" alt="Results Table" onclick="event.stopPropagation()">
+<div id="overlay">
+    <div class="close-btn" onclick="closeImage()">✕</div>
+    <img id="full-img" src="">
 </div>
-
-<footer>
-    &copy; 2026 SPRA Scottish Shore Angling
-</footer>
 
 <script>
-    function openImage(src, title) {
+    function toggleFullscreen() {
+        let elem = document.documentElement;
+        if (!document.fullscreenElement) {
+            elem.requestFullscreen().catch(err => {
+                alert(`Error: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    function openImage(src) {
         document.getElementById('full-img').src = src;
-        document.getElementById('img-title').innerText = title;
         document.getElementById('overlay').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; 
     }
 
     function closeImage() {
         document.getElementById('overlay').style.display = 'none';
-        document.body.style.overflow = 'auto'; 
     }
 </script>
 
