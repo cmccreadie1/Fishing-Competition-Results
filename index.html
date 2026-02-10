@@ -33,8 +33,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        header h1 { margin: 0; font-size: 1.4rem; letter-spacing: 0.5px; }
-        header p { margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9; }
+        header h1 { margin: 0; font-size: 1.3rem; letter-spacing: 0.5px; }
+        header p { margin: 5px 0 0; font-size: 0.85rem; opacity: 0.9; }
 
         .container {
             max-width: 600px;
@@ -56,68 +56,75 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 18px 20px;
             cursor: pointer;
             box-shadow: 0 2px 4px rgba(0,0,0,0.04);
             border: 1px solid #e2e8f0;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: background-color 0.2s;
         }
 
-        .result-card:active {
-            transform: scale(0.98);
-            background-color: #f1f5f9;
-        }
+        .result-card:active { background-color: #f1f5f9; }
 
         .card-info { font-weight: 600; font-size: 1rem; color: var(--primary); }
 
-        .view-btn {
-            background: var(--accent);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+        .view-icon {
+            color: var(--accent);
+            font-size: 1.2rem;
             font-weight: bold;
         }
 
-        /* Fullscreen Overlay Styles */
+        /* Modern Fullscreen Overlay */
         #overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
             flex-direction: column;
-            justify-content: center;
+            overflow-y: auto; /* Allows scrolling long tables */
+            padding: 20px 0;
+        }
+
+        .overlay-header {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-        }
-
-        #overlay img {
-            max-width: 100%;
-            max-height: 85vh;
-            object-fit: contain;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: white;
-            color: black;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
+            padding: 0 20px 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .overlay-title {
             color: white;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            text-align: center;
-            padding: 0 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Smaller, Transparent Close Button */
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        #overlay img {
+            width: 95%;
+            max-width: 1200px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 4px;
         }
 
         footer {
@@ -136,53 +143,55 @@
 </header>
 
 <div class="container">
-    <p class="instructions">Tap any category to view results fullscreen. <br>Pinch to zoom in on data.</p>
+    <p class="instructions">Tap to view. Pinch to zoom on tables. <br>Tap background to close.</p>
 
     <div class="result-card" onclick="openImage('Leader Board.png', 'Individual Final Standings')">
         <span class="card-info">1. Individual Final Standings</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Team Standings.png', 'Final Team Standings')">
         <span class="card-info">2. Final Team Standings</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Zone Day 1.png', 'Zone Standing Day 1')">
         <span class="card-info">3. Zone Standing Day 1</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Zone Day 2.png', 'Zone Standing Day 2')">
         <span class="card-info">4. Zone Standing Day 2</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Biggest Fish.png', 'Biggest Fish Top 10')">
         <span class="card-info">5. Biggest Fish Top 10</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Secret Pairs.png', 'Secret Pairs Winners')">
         <span class="card-info">6. Secret Pairs Winners</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Day Totals Chart.png', 'Competition Totals')">
         <span class="card-info">7. Competition Totals</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 
     <div class="result-card" onclick="openImage('Zone Performance Chart.png', 'Zone Performance')">
         <span class="card-info">8. Zone Performance</span>
-        <span class="view-btn">View</span>
+        <span class="view-icon">→</span>
     </div>
 </div>
 
-<div id="overlay">
-    <button class="close-btn" onclick="closeImage()">✕ CLOSE</button>
-    <div class="overlay-title" id="img-title"></div>
-    <img id="full-img" src="" alt="Fullscreen view">
+<div id="overlay" onclick="closeImage()">
+    <div class="overlay-header">
+        <div class="overlay-title" id="img-title"></div>
+        <div class="close-btn">✕</div>
+    </div>
+    <img id="full-img" src="" alt="Results Table" onclick="event.stopPropagation()">
 </div>
 
 <footer>
@@ -194,18 +203,13 @@
         document.getElementById('full-img').src = src;
         document.getElementById('img-title').innerText = title;
         document.getElementById('overlay').style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Prevents background scrolling
+        document.body.style.overflow = 'hidden'; 
     }
 
     function closeImage() {
         document.getElementById('overlay').style.display = 'none';
-        document.body.style.overflow = 'auto'; // Re-enables scrolling
+        document.body.style.overflow = 'auto'; 
     }
-
-    // Close on clicking the black background too
-    document.getElementById('overlay').addEventListener('click', function(e) {
-        if(e.target === this) closeImage();
-    });
 </script>
 
 </body>
