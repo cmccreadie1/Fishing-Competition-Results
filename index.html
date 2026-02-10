@@ -5,73 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>SPRA Scottish Shore 2026</title>
     <style>
-        :root {
-            --ios-bg: #f2f2f7;
-            --ios-card: rgba(255, 255, 255, 0.85);
-            --ios-blue: #007aff;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--ios-bg);
-            margin: 0;
-            padding: 0;
-            color: #000;
-        }
-
-        header {
-            background: rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 25px 15px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            border-bottom: 0.5px solid rgba(0,0,0,0.1);
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 15px auto;
-            padding: 0 15px 100px;
-        }
-
-        /* The Button Style */
-        .result-card {
-            background: var(--ios-card);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            margin-bottom: 12px;
-            border-radius: 14px;
-            padding: 20px;
-            border: 0.5px solid rgba(255,255,255,0.7);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            text-decoration: none; /* Removes link underline */
-            color: inherit;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            transition: background 0.2s;
-        }
-
-        .result-card:active {
-            background: rgba(230, 230, 235, 0.8);
-        }
-
-        .arrow {
-            color: #c7c7cc;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.8rem;
-            color: #8e8e93;
-            line-height: 1.5;
-        }
+        :root { --ios-bg: #f2f2f7; --ios-card: rgba(255, 255, 255, 0.85); }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--ios-bg); margin: 0; padding: 0; }
+        header { background: rgba(255, 255, 255, 0.5); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); padding: 25px 15px; text-align: center; position: sticky; top: 0; z-index: 100; border-bottom: 0.5px solid rgba(0,0,0,0.1); }
+        .container { max-width: 500px; margin: 15px auto; padding: 0 15px 100px; }
+        .result-card { background: var(--ios-card); backdrop-filter: blur(10px); margin-bottom: 12px; border-radius: 14px; padding: 20px; border: 0.5px solid rgba(255,255,255,0.7); display: flex; justify-content: space-between; align-items: center; text-decoration: none; color: inherit; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: background 0.2s; }
+        .result-card:active { background: rgba(230, 230, 235, 0.8); }
+        .arrow { color: #c7c7cc; font-weight: bold; font-size: 1.2rem; }
+        footer { text-align: center; padding: 20px; font-size: 0.8rem; color: #8e8e93; }
     </style>
 </head>
 <body>
@@ -82,43 +23,18 @@
 </header>
 
 <div class="container">
-    <a href="individual.pdf" class="result-card">
-        <span>1. Individual Final Standings</span><span class="arrow">›</span>
-    </a>
-
-    <a href="team.pdf" class="result-card">
-        <span>2. Final Team Standings</span><span class="arrow">›</span>
-    </a>
-
-    <a href="zone1.pdf" class="result-card">
-        <span>3. Zone Standing Day 1</span><span class="arrow">›</span>
-    </a>
-
-    <a href="zone2.pdf" class="result-card">
-        <span>4. Zone Standing Day 2</span><span class="arrow">›</span>
-    </a>
-
-    <a href="biggest.pdf" class="result-card">
-        <span>5. Biggest Fish Top 10</span><span class="arrow">›</span>
-    </a>
-
-    <a href="pairs.pdf" class="result-card">
-        <span>6. Secret Pairs Winners</span><span class="arrow">›</span>
-    </a>
-
-    <a href="totals.pdf" class="result-card">
-        <span>7. Competition Totals</span><span class="arrow">›</span>
-    </a>
-
-    <a href="performance.pdf" class="result-card">
-        <span>8. Zone Performance</span><span class="arrow">›</span>
-    </a>
+    <a href="individual.pdf?v=1" class="result-card"><span>1. Individual Final Standings</span><span class="arrow">›</span></a>
+    <a href="team.pdf?v=1" class="result-card"><span>2. Final Team Standings</span><span class="arrow">›</span></a>
+    <a href="zone1.pdf?v=1" class="result-card"><span>3. Zone Standing Day 1</span><span class="arrow">›</span></a>
+    <a href="zone2.pdf?v=1" class="result-card"><span>4. Zone Standing Day 2</span><span class="arrow">›</span></a>
+    <a href="biggest.pdf?v=1" class="result-card"><span>5. Biggest Fish Top 10</span><span class="arrow">›</span></a>
+    <a href="pairs.pdf?v=1" class="result-card"><span>6. Secret Pairs Winners</span><span class="arrow">›</span></a>
+    <a href="totals.pdf?v=1" class="result-card"><span>7. Competition Totals</span><span class="arrow">›</span></a>
+    <a href="performance.pdf?v=1" class="result-card"><span>8. Zone Performance</span><span class="arrow">›</span></a>
 </div>
 
 <footer>
-    &copy; 2026 SPRA Shore Angling <br>
-    Scottish Police Recreation Association <br>
-    Kilsyth, Scotland
+    &copy; 2026 SPRA Shore Angling <br> Kilsyth, Scotland
 </footer>
 
 </body>
