@@ -2,25 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>SPRA Scottish Shore 2026</title>
     <style>
         :root {
             --ios-bg: #f2f2f7;
             --ios-card: rgba(255, 255, 255, 0.8);
             --ios-text: #1c1c1e;
-            --glass-btn: rgba(255, 255, 255, 0.9);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--ios-bg);
             margin: 0; padding: 0;
             color: var(--ios-text);
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* Clean Header */
+        /* Frosted Glass Header */
         header {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(20px);
@@ -58,55 +56,53 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; /* Dark background for focus */
+            background: #fff;
             z-index: 2000;
-            overflow: hidden;
+            overflow: auto; /* Re-enables native scrolling */
+            -webkit-overflow-scrolling: touch;
         }
 
-        /* Floating Fixed Close Button - Always Visible */
+        /* Fixed Close Button that stays in the corner of the SCREEN, not the image */
         .close-btn {
             position: fixed;
             top: 30px; 
             right: 20px;
-            background: var(--glass-btn);
-            color: #000;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
             width: 44px; height: 44px;
             border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             z-index: 3000;
             font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             cursor: pointer;
-            backdrop-filter: blur(10px);
         }
 
-        /* Zoom and Smooth Scroll Container */
-        .viewport-wrapper {
-            width: 100%;
-            height: 100%;
-            overflow: auto;
+        /* Image Styling */
+        .img-wrapper {
+            min-width: 100vw;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            -webkit-overflow-scrolling: touch; /* Momentum scrolling for iOS */
+            padding: 40px 0; /* Space for the close button */
         }
 
         #full-img {
-            max-width: 96vh;
+            max-width: 95vh; /* Fits the height so it can rotate */
             height: auto;
-            transform: rotate(90deg);
+            display: block;
+            transform: rotate(90deg); /* Forces landscape on vertical phones */
             transform-origin: center;
-            /* Performance Boosters */
-            backface-visibility: hidden;
-            will-change: transform;
-            transition: transform 0.2s ease-out;
+            transition: transform 0.3s ease;
         }
 
+        /* If the user turns their phone physically to landscape */
         @media (orientation: landscape) {
             #full-img {
                 transform: rotate(0deg);
-                max-width: 98vw;
-                max-height: 98vh;
+                max-width: 95vw;
+                max-height: 95vh;
             }
         }
     </style>
@@ -114,50 +110,53 @@
 <body>
 
 <header>
-    <div style="font-weight: 700; font-size: 1.4rem; letter-spacing: -0.5px;">SPRA Scottish Shore</div>
-    <div style="font-size: 0.9rem; color: #8e8e93; font-weight: 500;">2026 Results Dashboard</div>
+    <div style="font-weight: 700; font-size: 1.4rem;">SPRA Scottish Shore</div>
+    <div style="font-size: 0.9rem; color: #8e8e93;">2026 Results Portal</div>
 </header>
 
 <div class="container">
-    <div class="result-card" onclick="openImage('Leader Board.png')"><span>1. Individual Final Standings</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Team Standings.png')"><span>2. Final Team Standings</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Zone Day 1.png')"><span>3. Zone Standing Day 1</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Zone Day 2.png')"><span>4. Zone Standing Day 2</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Biggest Fish.png')"><span>5. Biggest Fish Top 10</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Secret Pairs.png')"><span>6. Secret Pairs Winners</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Day Totals Chart.png')"><span>7. Competition Totals</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
-    <div class="result-card" onclick="openImage('Zone Performance Chart.png')"><span>8. Zone Performance</span><span style="color:#c7c7cc; font-size: 1.4rem;">›</span></div>
+    <div class="result-card" onclick="openImage('Leader Board.png')"><span>1. Individual Final Standings</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Team Standings.png')"><span>2. Final Team Standings</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 1.png')"><span>3. Zone Standing Day 1</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Day 2.png')"><span>4. Zone Standing Day 2</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Biggest Fish.png')"><span>5. Biggest Fish Top 10</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Secret Pairs.png')"><span>6. Secret Pairs Winners</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Day Totals Chart.png')"><span>7. Competition Totals</span><span style="color:#c7c7cc;">›</span></div>
+    <div class="result-card" onclick="openImage('Zone Performance Chart.png')"><span>8. Zone Performance</span><span style="color:#c7c7cc;">›</span></div>
 </div>
 
 <div id="overlay">
     <div class="close-btn" onclick="closeImage()">✕</div>
-    <div class="viewport-wrapper" id="zoom-container">
-        <img id="full-img" src="" onclick="event.stopPropagation()">
+    <div class="img-wrapper">
+        <img id="full-img" src="">
     </div>
 </div>
 
 <script>
     function openImage(src) {
         const overlay = document.getElementById('overlay');
-        const img = document.getElementById('full-img');
-        
-        img.src = src;
+        document.getElementById('full-img').src = src;
         overlay.style.display = 'block';
+        
+        // Block background scroll
         document.body.style.overflow = 'hidden';
 
-        // Trigger Fullscreen automatically when opening
+        // ENTER Fullscreen to hide browser bars
         if (overlay.requestFullscreen) {
             overlay.requestFullscreen();
-        } else if (overlay.webkitRequestFullscreen) { /* Safari */
-            overlay.webkitRequestFullscreen();
+        } else if (overlay.webkitRequestFullscreen) {
+            overlay.webkitRequestFullscreen(); // For Safari/iOS
         }
     }
 
     function closeImage() {
-        document.getElementById('overlay').style.display = 'none';
+        const overlay = document.getElementById('overlay');
+        overlay.style.display = 'none';
+        
+        // Restore background scroll
         document.body.style.overflow = 'auto';
 
-        // Exit Fullscreen automatically when closing
+        // EXIT Fullscreen to show browser bars
         if (document.fullscreenElement || document.webkitFullscreenElement) {
             if (document.exitFullscreen) {
                 document.exitFullscreen();
@@ -166,11 +165,6 @@
             }
         }
     }
-
-    // Double-tap to reset zoom/position if they get lost
-    document.getElementById('zoom-container').addEventListener('dblclick', function() {
-        this.scrollTo({top: 0, left: 0, behavior: 'smooth'});
-    });
 </script>
 
 </body>
