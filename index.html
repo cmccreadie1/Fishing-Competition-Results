@@ -10,7 +10,7 @@
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            --ios-card: rgba(255, 255, 255, 0.8);
+            --ios-card: rgba(255, 255, 255, 0.75);
             --deep-blue: #003366;
             --accent-blue: #007aff;
         }
@@ -33,13 +33,18 @@
             border-bottom: 0.5px solid rgba(255,255,255,0.3); 
         }
 
-        /* Logo styling */
         .logo {
             width: 90px;
             height: auto;
             margin-bottom: 12px;
             border-radius: 8px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
+
+        /* Hide the logo if it's missing so we don't see a broken icon */
+        .logo:not([src]), .logo[src=""] { display: none; }
 
         h1 { margin: 0; font-weight: 800; font-size: 1.4rem; color: var(--deep-blue); }
         .sub-header { font-size: 0.85rem; color: #555; margin-top: 5px; font-weight: 600; letter-spacing: 1px; }
@@ -60,33 +65,12 @@
             color: var(--deep-blue);
             font-weight: 600;
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07); 
+            transition: transform 0.2s ease;
         }
 
-        /* Floating Close Button Style */
-        #pdf-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #fff;
-            z-index: 2000;
-        }
+        .result-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.9); }
 
-        .floating-close {
-            position: fixed;
-            top: 25px;
-            right: 20px;
-            background: var(--deep-blue);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            text-decoration: none;
-            z-index: 3000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            font-size: 0.9rem;
-        }
-
-        iframe { width: 100%; height: 100%; border: none; }
+        .arrow { color: var(--accent-blue); font-weight: bold; font-size: 1.3rem; }
 
         footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #666; }
     </style>
@@ -94,45 +78,26 @@
 <body>
 
 <header>
-    <img src="logo.png" onerror="this.src='https://www.sprapol.co.uk/wp-content/themes/spra/images/logo.png'" alt="SPRA Logo" class="logo">
+    <img src="logo.png" alt="" class="logo" onerror="this.style.display='none'">
     <h1>SPRA Shore Championship 2026</h1>
     <div class="sub-header">Official Results Portal</div>
 </header>
 
 <div class="container">
-    <a href="javascript:void(0)" onclick="viewPDF('individual.pdf?v=1')" class="result-card"><span>1. Individual Final Standings</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('team.pdf?v=1')" class="result-card"><span>2. Final Team Standings</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('zone1.pdf?v=1')" class="result-card"><span>3. Zone Standing Day 1</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('zone2.pdf?v=1')" class="result-card"><span>4. Zone Standing Day 2</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('biggest.pdf?v=1')" class="result-card"><span>5. Biggest Fish Top 10</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('pairs.pdf?v=1')" class="result-card"><span>6. Secret Pairs Winners</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('totals.pdf?v=1')" class="result-card"><span>7. Competition Totals</span><span style="color:var(--accent-blue)">›</span></a>
-    <a href="javascript:void(0)" onclick="viewPDF('performance.pdf?v=1')" class="result-card"><span>8. Zone Performance</span><span style="color:var(--accent-blue)">›</span></a>
-</div>
-
-<div id="pdf-overlay">
-    <a href="javascript:void(0)" class="floating-close" onclick="closePDF()">✕ Close Results</a>
-    <iframe id="pdf-frame" src=""></iframe>
+    <a href="individual.pdf?v=1" class="result-card"><span>1. Individual Final Standings</span><span class="arrow">›</span></a>
+    <a href="team.pdf?v=1" class="result-card"><span>2. Final Team Standings</span><span class="arrow">›</span></a>
+    <a href="zone1.pdf?v=1" class="result-card"><span>3. Zone Standing Day 1</span><span class="arrow">›</span></a>
+    <a href="zone2.pdf?v=1" class="result-card"><span>4. Zone Standing Day 2</span><span class="arrow">›</span></a>
+    <a href="biggest.pdf?v=1" class="result-card"><span>5. Biggest Fish Top 10</span><span class="arrow">›</span></a>
+    <a href="pairs.pdf?v=1" class="result-card"><span>6. Secret Pairs Winners</span><span class="arrow">›</span></a>
+    <a href="totals.pdf?v=1" class="result-card"><span>7. Competition Totals</span><span class="arrow">›</span></a>
+    <a href="performance.pdf?v=1" class="result-card"><span>8. Zone Performance</span><span class="arrow">›</span></a>
 </div>
 
 <footer>
     &copy; 2026 SPRA Shore Angling <br> 
     Kilsyth, Scotland
 </footer>
-
-<script>
-    function viewPDF(file) {
-        document.getElementById('pdf-frame').src = file;
-        document.getElementById('pdf-overlay').style.display = 'block';
-        document.body.style.overflow = 'hidden'; // Stop main page scrolling
-    }
-
-    function closePDF() {
-        document.getElementById('pdf-overlay').style.display = 'none';
-        document.getElementById('pdf-frame').src = '';
-        document.body.style.overflow = 'auto'; // Re-enable scrolling
-    }
-</script>
 
 </body>
 </html>
