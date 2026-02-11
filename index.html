@@ -33,17 +33,7 @@
             border-bottom: 0.5px solid rgba(255,255,255,0.3); 
         }
 
-        .logo {
-            width: 90px;
-            height: auto;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Hide the logo if it's missing so we don't see a broken icon */
+        .logo { width: 90px; height: auto; margin-bottom: 12px; border-radius: 8px; display: block; margin: 0 auto; }
         .logo:not([src]), .logo[src=""] { display: none; }
 
         h1 { margin: 0; font-weight: 800; font-size: 1.4rem; color: var(--deep-blue); }
@@ -66,11 +56,48 @@
             font-weight: 600;
             box-shadow: 0 8px 32px rgba(31, 38, 135, 0.07); 
             transition: transform 0.2s ease;
+            cursor: pointer;
         }
 
         .result-card:active { transform: scale(0.97); background: rgba(255, 255, 255, 0.9); }
-
         .arrow { color: var(--accent-blue); font-weight: bold; font-size: 1.3rem; }
+
+        /* Elegant Alert Box */
+        #custom-alert {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            z-index: 5000;
+            width: 80%;
+            max-width: 300px;
+            border: 1px solid #fff;
+        }
+
+        #overlay-dim {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.3);
+            z-index: 4000;
+        }
+
+        .alert-btn {
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: var(--accent-blue);
+            color: white;
+            border-radius: 25px;
+            display: inline-block;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
         footer { text-align: center; padding: 40px 20px; font-size: 0.8rem; color: #666; }
     </style>
@@ -84,20 +111,51 @@
 </header>
 
 <div class="container">
-    <a href="individual.pdf?v=1" class="result-card"><span>1. Individual Final Standings</span><span class="arrow">›</span></a>
-    <a href="team.pdf?v=1" class="result-card"><span>2. Final Team Standings</span><span class="arrow">›</span></a>
-    <a href="zone1.pdf?v=1" class="result-card"><span>3. Zone Standing Day 1</span><span class="arrow">›</span></a>
-    <a href="zone2.pdf?v=1" class="result-card"><span>4. Zone Standing Day 2</span><span class="arrow">›</span></a>
-    <a href="biggest.pdf?v=1" class="result-card"><span>5. Biggest Fish Top 10</span><span class="arrow">›</span></a>
-    <a href="pairs.pdf?v=1" class="result-card"><span>6. Secret Pairs Winners</span><span class="arrow">›</span></a>
-    <a href="totals.pdf?v=1" class="result-card"><span>7. Competition Totals</span><span class="arrow">›</span></a>
-    <a href="performance.pdf?v=1" class="result-card"><span>8. Zone Performance</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('individual.pdf?v=1')" class="result-card"><span>1. Individual Standings</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('team.pdf?v=1')" class="result-card"><span>2. Team Standings</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('zone1.pdf?v=1')" class="result-card"><span>3. Zone Standing Day 1</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('zone2.pdf?v=1')" class="result-card"><span>4. Zone Standing Day 2</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('biggest.pdf?v=1')" class="result-card"><span>5. Biggest Fish Top 10</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('pairs.pdf?v=1')" class="result-card"><span>6. Secret Pairs Winners</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('totals.pdf?v=1')" class="result-card"><span>7. Competition Totals</span><span class="arrow">›</span></a>
+    <a onclick="checkFile('performance.pdf?v=1')" class="result-card"><span>8. Zone Performance</span><span class="arrow">›</span></a>
+</div>
+
+<div id="overlay-dim" onclick="closeAlert()"></div>
+<div id="custom-alert">
+    <div style="font-size: 1.1rem; font-weight: 700; color: var(--deep-blue); margin-bottom: 10px;">Coming Soon</div>
+    <div style="font-size: 0.9rem; color: #555;">Results will be available at the end of the competition.</div>
+    <a href="javascript:void(0)" class="alert-btn" onclick="closeAlert()">OK</a>
 </div>
 
 <footer>
-    &copy; 2026 SPRA Shore Angling <br> 
-    Kilsyth, Scotland
+    &copy; 2026 SPRA Shore Angling <br> Kilsyth, Scotland
 </footer>
+
+<script>
+    // Logic to check if file exists before opening
+    function checkFile(url) {
+        fetch(url, { method: 'HEAD' })
+        .then(res => {
+            if (res.ok) {
+                window.location.href = url; // Opens PDF natively if found
+            } else {
+                showAlert(); // Shows glassy alert if file is missing (404)
+            }
+        })
+        .catch(() => showAlert());
+    }
+
+    function showAlert() {
+        document.getElementById('overlay-dim').style.display = 'block';
+        document.getElementById('custom-alert').style.display = 'block';
+    }
+
+    function closeAlert() {
+        document.getElementById('overlay-dim').style.display = 'none';
+        document.getElementById('custom-alert').style.display = 'none';
+    }
+</script>
 
 </body>
 </html>
