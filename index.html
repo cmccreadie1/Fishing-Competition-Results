@@ -7,15 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.3);
-            --text-dark: #1d1d1f;
-            --accent-blue: #0071e3;
+            /* Complimentary colors based on your rod and beach image */
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.4);
+            --text-dark: #0f172a; /* Deep navy text */
+            --accent-rod-blue: #1e3a8a; /* Matches the fishing rod blue */
+            --beach-shadow: rgba(0, 0, 0, 0.2);
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: linear-gradient(160deg, #a1c4fd 0%, #c2e9fb 100%);
+            /* Using your background.jpg from the repository */
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
+                        url('background.jpg');
+            background-size: cover;
+            background-position: center;
             background-attachment: fixed;
             margin: 0;
             display: flex;
@@ -27,65 +33,75 @@
 
         header {
             width: 100%;
-            padding: 40px 20px 20px;
+            padding: 50px 20px 25px;
             text-align: center;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.3); /* Darker header for contrast */
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--glass-border);
+            color: white;
         }
 
-        h1 { margin: 0; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
-        .sub { font-size: 0.9rem; opacity: 0.8; margin-top: 5px; }
+        h1 { margin: 0; font-size: 1.6rem; font-weight: 800; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+        .sub { font-size: 0.9rem; opacity: 0.9; margin-top: 5px; font-weight: 400; }
 
         .container {
-            width: 90%;
+            width: 92%;
             max-width: 450px;
-            padding: 25px 0 100px;
+            padding: 30px 0 100px;
         }
 
+        /* Frosted Glass Cards (Option 1) */
         .card {
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 18px;
-            margin-bottom: 12px;
+            border-radius: 22px;
+            padding: 16px;
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
             text-decoration: none;
             color: var(--text-dark);
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-            min-height: 44px; /* Large tap target for mobile */
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 32px var(--beach-shadow);
+            /* Mobile-First Padding (Option 4) */
+            min-height: 52px;
         }
 
-        .card:active { transform: scale(0.97); }
+        .card:active { transform: scale(0.96); background: rgba(255, 255, 255, 0.9); }
 
+        /* Iconography (Option 2) */
         .icon {
-            font-size: 22px;
-            margin-right: 15px;
-            width: 38px;
-            height: 38px;
+            font-size: 20px;
+            margin-right: 16px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #fff;
-            border-radius: 10px;
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
 
-        .label { font-weight: 600; font-size: 0.95rem; flex-grow: 1; }
-        .chevron { color: var(--accent-blue); font-weight: 800; opacity: 0.4; }
+        .label { font-weight: 600; font-size: 1rem; flex-grow: 1; }
+        .chevron { color: var(--accent-rod-blue); font-weight: 800; font-size: 1.2rem; }
 
+        /* Status Alert Styles */
         #alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; padding: 30px; border-radius: 24px; text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3); z-index: 1000; width: 85%; max-width: 320px;
+            background: white; padding: 35px 25px; border-radius: 28px; text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4); z-index: 1000; width: 85%; max-width: 320px;
         }
 
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 999; }
-        .btn-ok { margin-top: 20px; display: inline-block; padding: 12px 35px; background: var(--accent-blue); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; }
+        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; }
+        .btn-ok { 
+            margin-top: 25px; display: inline-block; padding: 14px 45px; 
+            background: var(--accent-rod-blue); color: white; border-radius: 15px; 
+            text-decoration: none; font-weight: 700; box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -101,7 +117,7 @@
     </a>
 
     <a href="#" onclick="openFile('team.pdf')" class="card">
-        <div class="icon">👥</div><div class="label">Team Standings</div><div class="chevron : 3.2]">›</div>
+        <div class="icon">👥</div><div class="label">Team Standings</div><div class="chevron">›</div>
     </a>
 
     <a href="#" onclick="openFile('zone1.pdf')" class="card">
@@ -131,14 +147,15 @@
 
 <div id="overlay" onclick="closeAlert()"></div>
 <div id="alert-box">
-    <div style="font-weight: 800; font-size: 1.1rem; margin-bottom: 8px;">Results Pending</div>
-    <div style="font-size: 0.9rem; color: #666;">These results are being finalized. Check back soon!</div>
-    <a href="#" class="btn-ok" onclick="closeAlert()">OK</a>
+    <div style="font-weight: 800; font-size: 1.3rem; color: var(--text-dark); margin-bottom: 10px;">Results Pending</div>
+    <div style="font-size: 0.95rem; color: #475569; line-height: 1.5;">Scores are currently being finalized. Please check back shortly!</div>
+    <a href="#" class="btn-ok" onclick="closeAlert()">Understood</a>
 </div>
 
 <script>
     function openFile(filename) {
-        const finalUrl = filename + '?t=' + new Date().getTime();
+        // Cache-busting prevents anglers from seeing old versions
+        const finalUrl = filename + '?v=' + new Date().getTime();
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { window.location.href = finalUrl; } 
