@@ -7,16 +7,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Optimized for the rod blue and beach tones */
             --glass-white: rgba(255, 255, 255, 0.6); 
             --glass-border: rgba(255, 255, 255, 0.3);
             --rod-navy: #0f172a; 
             --accent-blue: #1e3a8a;
+            /* New darker, complimentary icon background */
+            --icon-bg: rgba(15, 23, 42, 0.15); 
         }
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* Bleeds the image across the entire viewport */
             background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
                         url('background.jpg');
             background-size: cover;
@@ -30,7 +30,6 @@
             color: var(--rod-navy);
         }
 
-        /* Transparent Header with Title Bleed */
         header {
             width: 100%;
             padding: 60px 20px 30px;
@@ -43,15 +42,15 @@
             font-size: 1.7rem; 
             font-weight: 800; 
             color: white;
-            /* Text shadow ensures title pops against the sky */
             text-shadow: 2px 2px 10px rgba(0,0,0,0.5); 
         }
 
         header .sub { 
-            font-size: 0.9rem; 
+            font-size: 0.85rem; 
             color: rgba(255,255,255,0.9); 
             margin-top: 5px; 
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .container {
@@ -60,15 +59,13 @@
             padding-bottom: 80px;
         }
 
-        /* Glassmorphism Cards with Pebble Bleed */
         .card {
             background: var(--glass-white);
-            /* The blur creates the frosted glass look */
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 16px 20px;
+            padding: 14px 18px;
             margin-bottom: 14px;
             display: flex;
             align-items: center;
@@ -76,30 +73,29 @@
             color: var(--rod-navy);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
             transition: all 0.2s ease;
-            /* Mobile-First Padding: Large hit area for cold fingers */
             min-height: 54px;
         }
 
         .card:active { transform: scale(0.96); background: rgba(255,255,255,0.8); }
 
-        /* Iconography */
+        /* Updated Icon Background */
         .icon {
             font-size: 20px;
             margin-right: 18px;
             width: 44px;
             height: 44px;
-            background: white;
+            /* Darker shade than the button but still discernible */
+            background: var(--icon-bg);
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(15, 23, 42, 0.05);
         }
 
-        .label { font-weight: 600; font-size: 1rem; flex-grow: 1; }
-        .chevron { color: var(--accent-blue); font-weight: 800; opacity: 0.5; }
+        .label { font-weight: 600; font-size: 1rem; flex-grow: 1; letter-spacing: -0.2px; }
+        .chevron { color: var(--accent-blue); font-weight: 800; opacity: 0.4; }
 
-        /* Modal Styles */
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; backdrop-filter: blur(4px); }
         #alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -113,12 +109,12 @@
 
 <header>
     <h1>SPRA Championship 2026</h1>
-    <div class="sub">OFFICIAL RESULTS PORTAL</div>
+    <div class="sub">Official Results Portal</div>
 </header>
 
 <div class="container">
     <a href="#" onclick="openFile('individual.pdf')" class="card">
-        <div class="icon">🏆</div><div class="label">Individual Standings</div><div class="chevron">›</div>
+        <div class="icon">🥇</div><div class="label">Individual Standings</div><div class="chevron">›</div>
     </a>
     <a href="#" onclick="openFile('team.pdf')" class="card">
         <div class="icon">👥</div><div class="label">Team Standings</div><div class="chevron">›</div>
@@ -152,7 +148,6 @@
 
 <script>
     function openFile(filename) {
-        // Cache-busting ensures anglers always see the latest PDF
         const finalUrl = filename + '?v=' + new Date().getTime();
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
