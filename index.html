@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>SPRA Shore Championship 2026</title>
+    <title>SPRA Shore Angling Championship 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
@@ -37,9 +37,9 @@
             text-transform: uppercase;
             margin: 0;
             text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            padding: 0 20px;
         }
 
-        /* Restored the subheading */
         header .sub { 
             font-size: 0.8rem; 
             font-weight: 300;
@@ -54,14 +54,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px; /* Slightly tighter spacing for elegance */
+            gap: 15px;
             padding-top: 60px;
         }
 
-        /* Refined Typography Buttons (Less Bold) */
         .card {
             font-size: 1.6rem;
-            font-weight: 300; /* Matching the thin/light font in your example */
+            font-weight: 300;
             text-decoration: none;
             color: white;
             transition: all 0.4s ease;
@@ -71,9 +70,8 @@
             letter-spacing: 1px;
         }
 
-        /* Elegant interaction */
         .card:active {
-            letter-spacing: 4px; /* Text expands slightly when touched */
+            letter-spacing: 4px;
             opacity: 0.5;
         }
 
@@ -92,7 +90,7 @@
 <body>
 
 <header>
-    <h1>SPRA Championship 2026</h1>
+    <h1>SPRA Shore Angling Championship</h1>
     <div class="sub">Official Results Portal</div>
 </header>
 
@@ -119,13 +117,4 @@
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { window.location.href = finalUrl; } 
-            else { showAlert(); }
-        })
-        .catch(() => showAlert());
-    }
-    function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
-    function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
-</script>
-
-</body>
-</html>
+            else
