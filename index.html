@@ -64,7 +64,7 @@
             font-weight: 300;
             text-decoration: none;
             color: white;
-            /* Instant haptic response */
+            /* Sharp 0.1s transition for haptic feel */
             transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
             padding: 8px 20px;
@@ -74,14 +74,14 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* The Haptic Bounce & Glow */
+        /* Haptic Bounce: Shrinks slightly on touch */
         .card:active {
             transform: scale(0.92); 
             text-shadow: 0 0 30px rgba(255, 255, 255, 1);
             filter: brightness(1.5);
         }
 
-        /* Dark Loading Spinner */
+        /* Loading Spinner Overlay */
         #loading-overlay { 
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: rgba(0,0,0,0.7); backdrop-filter: blur(12px); 
@@ -118,14 +118,14 @@
 </header>
 
 <div class="container">
-    <a href="#" onclick="openFile('individual.pdf')" class="card">Individual</a>
-    <a href="#" onclick="openFile('team.pdf')" class="card">Teams</a>
-    <a href="#" onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</a>
-    <a href="#" onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</a>
-    <a href="#" onclick="openFile('biggest.pdf')" class="card">Biggest Fish</a>
-    <a href="#" onclick="openFile('pairs.pdf')" class="card">Secret Pairs</a>
-    <a href="#" onclick="openFile('totals.pdf')" class="card">Total Stats</a>
-    <a href="#" onclick="openFile('performance.pdf')" class="card">Performance</a>
+    <a href="individual.pdf" onclick="showLoading()" target="_blank" class="card">Individual</a>
+    <a href="team.pdf" onclick="showLoading()" target="_blank" class="card">Teams</a>
+    <a href="zone1.pdf" onclick="showLoading()" target="_blank" class="card">Day 1 Zones</a>
+    <a href="zone2.pdf" onclick="showLoading()" target="_blank" class="card">Day 2 Zones</a>
+    <a href="biggest.pdf" onclick="showLoading()" target="_blank" class="card">Biggest Fish</a>
+    <a href="pairs.pdf" onclick="showLoading()" target="_blank" class="card">Secret Pairs</a>
+    <a href="totals.pdf" onclick="showLoading()" target="_blank" class="card">Total Stats</a>
+    <a href="performance.pdf" onclick="showLoading()" target="_blank" class="card">Performance</a>
 </div>
 
 <div id="overlay" onclick="closeAlert()"></div>
@@ -135,38 +135,24 @@
 </div>
 
 <script>
-    function openFile(filename) {
-        const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
-        const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
-        
+    function showLoading() {
+        // Triggers the spinner on click
         document.getElementById('loading-overlay').style.display = 'flex';
-
-        fetch(finalUrl, { method: 'HEAD' })
-        .then(res => {
-            if (res.ok) { 
-                const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                window.location.href = googleViewerUrl;
-            } 
-            else { 
-                document.getElementById('loading-overlay').style.display = 'none';
-                showAlert(); 
-            }
-        })
-        .catch(() => {
+        // Hides it after 2 seconds (enough time for browser to launch viewer)
+        setTimeout(() => {
             document.getElementById('loading-overlay').style.display = 'none';
-            showAlert();
-        });
+        }, 2000);
     }
 
-    // Ensures loading screen is hidden when navigating back
+    // Auto-hide if angler returns via back button
     window.onpageshow = function(event) {
-        if (event.persisted) {
-            document.getElementById('loading-overlay').style.display = 'none';
-        }
+        document.getElementById('loading-overlay').style.display = 'none';
     };
 
-    function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
-    function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
+    function closeAlert() { 
+        document.getElementById('overlay').style.display = 'none'; 
+        document.getElementById('alert-box').style.display = 'none'; 
+    }
 </script>
 
 </body>
