@@ -65,7 +65,8 @@
             font-weight: 300;
             text-decoration: none;
             color: white;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
+            /* Ultra-fast transition for haptic feel */
+            transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
             padding: 8px 20px;
             text-align: center;
@@ -74,14 +75,22 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* The Active Feedback (Glow) */
+        /* Haptic Interaction: Press-in and Glow */
         .card:active {
-            opacity: 1;
-            letter-spacing: 4px;
-            transform: scale(1.1); /* Slight growth on touch */
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
-            filter: brightness(1.3); /* Brightens the text */
+            transform: scale(0.92); /* Physical "click" down feel */
+            text-shadow: 0 0 30px rgba(255, 255, 255, 1);
+            filter: brightness(1.5);
+            opacity: 0.8;
         }
+
+        /* Loading Spinner Overlay */
+        #loading-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(10px); 
+            z-index: 2000; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
         #alert-box {
@@ -89,13 +98,15 @@
             text-align: center; width: 80%; z-index: 1000;
         }
         #alert-box div { font-weight: 300; font-size: 1.6rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px; line-height: 1.4; }
-        .btn-ok { 
-            display: inline-block; padding: 12px 40px; border: 1px solid rgba(255,255,255,0.4); 
-            color: white; text-decoration: none; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;
-        }
+        .btn-ok { display: inline-block; padding: 12px 40px; border: 1px solid rgba(255,255,255,0.4); color: white; text-decoration: none; font-weight: 300; text-transform: uppercase; letter-spacing: 2px; }
     </style>
 </head>
 <body>
+
+<div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="margin-top: 15px; font-weight: 300; letter-spacing: 2px; font-size: 0.8rem;">LOADING RESULTS...</div>
+</div>
 
 <header>
     <h1>SPRA Shore Angling Championship</h1>
@@ -124,22 +135,23 @@
         const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
         const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
         
-        // Smooth-open logic: placeholder tab
-        const newTab = window.open('about:blank', '_blank');
+        // Show the dark loading screen instead of a white screen
+        document.getElementById('loading-overlay').style.display = 'flex';
 
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { 
                 const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                newTab.location.assign(googleViewerUrl); 
+                // Redirecting current page to avoid the white-flash of a new tab
+                window.location.href = googleViewerUrl;
             } 
             else { 
-                newTab.close();
+                document.getElementById('loading-overlay').style.display = 'none';
                 showAlert(); 
             }
         })
         .catch(() => {
-            newTab.close();
+            document.getElementById('loading-overlay').style.display = 'none';
             showAlert();
         });
     }
