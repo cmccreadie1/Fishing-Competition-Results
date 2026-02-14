@@ -64,21 +64,23 @@
             font-weight: 300;
             text-decoration: none;
             color: white;
-            /* Snappy 0.1s transition for haptic feel */
-            transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
-            padding: 8px 20px;
+            padding: 8px 24px;
             text-align: center;
             letter-spacing: 1px;
             cursor: pointer;
+            border-radius: 8px; /* Required for the glassy outline to shape correctly */
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Haptic Bounce & Glow */
+        /* Glassy Outline Feedback */
         .card:active {
-            transform: scale(0.92); 
-            text-shadow: 0 0 30px rgba(255, 255, 255, 1);
-            filter: brightness(1.5);
+            transform: scale(0.92);
+            background: rgba(255, 255, 255, 0.1); /* Subtle frosted glass fill */
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4), /* Outer glassy ring */
+                        0 0 20px rgba(255, 255, 255, 0.2); /* Soft ambient glow */
+            backdrop-filter: blur(4px); /* Blur effect within the ring */
         }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
@@ -119,18 +121,27 @@
         const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
         const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
         
-        // 200ms delay to let the haptic bounce finish
+        // Open the tab FIRST to ensure browser reliability
+        // This stops pop-up blockers from interrupting the process.
+        const newTab = window.open('about:blank', '_blank');
+
         setTimeout(() => {
             fetch(finalUrl, { method: 'HEAD' })
             .then(res => {
                 if (res.ok) { 
                     const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                    window.open(googleViewerUrl, '_blank'); 
+                    newTab.location.replace(googleViewerUrl); // Replace the blank page with the PDF
                 } 
-                else { showAlert(); }
+                else { 
+                    newTab.close(); // Close the blank tab if file is missing
+                    showAlert(); 
+                }
             })
-            .catch(() => showAlert());
-        }, 200); 
+            .catch(() => {
+                newTab.close();
+                showAlert();
+            });
+        }, 250); // Delay for the glassy bounce to be visible
     }
     function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
     function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
