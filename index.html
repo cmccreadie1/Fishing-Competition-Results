@@ -8,14 +8,10 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* Added a slightly stronger gradient to protect text readability */
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+            background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
                         url('background.jpg');
             background-size: cover;
-            
-            /* Shifts the image left to bring the rod/reel into view on mobile */
             background-position: 75% center; 
-            
             background-attachment: fixed;
             margin: 0;
             display: flex;
@@ -40,7 +36,7 @@
             letter-spacing: 4px; 
             text-transform: uppercase;
             margin: 0;
-            text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+            text-shadow: 0 2px 12px rgba(0,0,0,0.6);
             padding: 0 30px;
             line-height: 1.4;
         }
@@ -69,7 +65,7 @@
             text-decoration: none;
             color: white;
             transition: all 0.4s ease;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.6);
+            text-shadow: 0 2px 15px rgba(0,0,0,0.7);
             padding: 10px 20px;
             text-align: center;
             letter-spacing: 1px;
@@ -119,10 +115,17 @@
 
 <script>
     function openFile(filename) {
-        const finalUrl = filename + '?v=' + new Date().getTime();
+        // Base URL for your specific GitHub Pages site
+        const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
+        const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
+        
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
-            if (res.ok) { window.location.href = finalUrl; } 
+            if (res.ok) { 
+                // Option 2: Wrap the PDF in Google's Viewer to force an in-browser preview
+                const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
+                window.open(googleViewerUrl, '_blank'); 
+            } 
             else { showAlert(); }
         })
         .catch(() => showAlert());
