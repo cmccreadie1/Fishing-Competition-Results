@@ -8,7 +8,6 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* Brightened beach background */
             background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
                         url('background.jpg');
             background-size: cover;
@@ -65,7 +64,7 @@
             font-weight: 300;
             text-decoration: none;
             color: white;
-            /* Fast 0.1s transition for haptic feel */
+            /* Snappy 0.1s transition for haptic feel */
             transition: all 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
             text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
             padding: 8px 20px;
@@ -75,9 +74,9 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* The Haptic Bounce & Glow */
+        /* Haptic Bounce & Glow */
         .card:active {
-            transform: scale(0.92); /* Press-in effect */
+            transform: scale(0.92); 
             text-shadow: 0 0 30px rgba(255, 255, 255, 1);
             filter: brightness(1.5);
         }
@@ -120,16 +119,18 @@
         const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
         const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
         
-        // Save Point 3 logic: stable HEAD check
-        fetch(finalUrl, { method: 'HEAD' })
-        .then(res => {
-            if (res.ok) { 
-                const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                window.open(googleViewerUrl, '_blank'); 
-            } 
-            else { showAlert(); }
-        })
-        .catch(() => showAlert());
+        // 200ms delay to let the haptic bounce finish
+        setTimeout(() => {
+            fetch(finalUrl, { method: 'HEAD' })
+            .then(res => {
+                if (res.ok) { 
+                    const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
+                    window.open(googleViewerUrl, '_blank'); 
+                } 
+                else { showAlert(); }
+            })
+            .catch(() => showAlert());
+        }, 200); 
     }
     function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
     function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
