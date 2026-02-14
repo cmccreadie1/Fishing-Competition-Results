@@ -8,7 +8,6 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* MUCH BRIGHTER: Reduced overlay to 0.15 for maximum image clarity */
             background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
                         url('background.jpg');
             background-size: cover;
@@ -37,7 +36,6 @@
             letter-spacing: 3px; 
             text-transform: uppercase;
             margin: 0;
-            /* Extra thick shadow to protect text against the brighter image */
             text-shadow: 0 0 20px rgba(0,0,0,0.9), 0 2px 5px rgba(0,0,0,0.9);
             padding: 0 30px;
             line-height: 1.4;
@@ -48,7 +46,7 @@
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
-            opacity: 1; /* Full opacity for better visibility */
+            opacity: 1;
             margin-top: 8px;
             text-shadow: 0 2px 8px rgba(0,0,0,1);
         }
@@ -67,18 +65,22 @@
             font-weight: 300;
             text-decoration: none;
             color: white;
-            transition: all 0.4s ease;
-            /* Enhanced shadows for the brighter background */
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smoother transition */
             text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
             padding: 8px 20px;
             text-align: center;
             letter-spacing: 1px;
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* The Active Feedback (Glow) */
         .card:active {
+            opacity: 1;
             letter-spacing: 4px;
-            opacity: 0.4;
+            transform: scale(1.1); /* Slight growth on touch */
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4);
+            filter: brightness(1.3); /* Brightens the text */
         }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
@@ -122,15 +124,24 @@
         const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
         const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
         
+        // Smooth-open logic: placeholder tab
+        const newTab = window.open('about:blank', '_blank');
+
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { 
                 const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                window.open(googleViewerUrl, '_blank'); 
+                newTab.location.assign(googleViewerUrl); 
             } 
-            else { showAlert(); }
+            else { 
+                newTab.close();
+                showAlert(); 
+            }
         })
-        .catch(() => showAlert());
+        .catch(() => {
+            newTab.close();
+            showAlert();
+        });
     }
     function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
     function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
