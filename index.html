@@ -8,8 +8,8 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* BRIGHTENED: Changed overlay from 0.45 to 0.3 for a lighter look */
-            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+            /* MUCH BRIGHTER: Reduced overlay to 0.15 for maximum image clarity */
+            background: linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), 
                         url('background.jpg');
             background-size: cover;
             background-position: 75% center; 
@@ -21,24 +21,24 @@
             justify-content: center;
             min-height: 100vh;
             color: white;
-            overflow: hidden; /* Prevents accidental scrolling on mobile */
+            overflow: hidden;
         }
 
         header {
             position: absolute;
-            top: 7vh; /* Positions header relative to screen height */
+            top: 7vh;
             text-align: center;
             width: 100%;
         }
 
         header h1 { 
-            font-size: 1rem; /* Slightly smaller for better mobile fit */
+            font-size: 1rem; 
             font-weight: 600; 
             letter-spacing: 3px; 
             text-transform: uppercase;
             margin: 0;
-            /* Stronger shadow to keep text readable on a brighter background */
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+            /* Extra thick shadow to protect text against the brighter image */
+            text-shadow: 0 0 20px rgba(0,0,0,0.9), 0 2px 5px rgba(0,0,0,0.9);
             padding: 0 30px;
             line-height: 1.4;
         }
@@ -48,9 +48,9 @@
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
-            opacity: 0.9;
+            opacity: 1; /* Full opacity for better visibility */
             margin-top: 8px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 8px rgba(0,0,0,1);
         }
 
         .container {
@@ -58,17 +58,18 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px; /* Tighter gap for better vertical fit */
+            gap: 6px;
             padding-top: 60px;
         }
 
         .card {
-            font-size: 1.4rem; /* Balanced size for readability and fit */
+            font-size: 1.4rem;
             font-weight: 300;
             text-decoration: none;
             color: white;
             transition: all 0.4s ease;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+            /* Enhanced shadows for the brighter background */
+            text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 2px 4px rgba(0,0,0,1);
             padding: 8px 20px;
             text-align: center;
             letter-spacing: 1px;
