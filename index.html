@@ -20,15 +20,14 @@
             justify-content: center;
             min-height: 100vh;
             color: white;
-            overflow: hidden; /* Prevents accidental scrolling on the main hub */
+            overflow: hidden;
         }
 
         header {
             position: absolute;
-            top: 10vh; /* Scaled to screen height to avoid crowding */
+            top: 8vh;
             text-align: center;
             width: 100%;
-            z-index: 10;
         }
 
         header h1 { 
@@ -55,13 +54,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px; /* Tighter gap to prevent encroachment */
-            padding-top: 40px;
+            gap: 5px; /* Tight gap to keep everything centered and small */
+            padding-top: 50px;
         }
 
-        /* Restored <a> tag for better compatibility and scaling */
         .card {
-            font-size: 1.35rem; /* Reduced size to prevent encroachment */
+            font-size: 1.3rem; /* Scaled down to prevent encroachment */
             font-weight: 300;
             text-decoration: none;
             color: white;
@@ -77,7 +75,6 @@
         .card:active {
             letter-spacing: 3px;
             opacity: 0.4;
-            transform: scale(1.05);
         }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
@@ -100,14 +97,14 @@
 </header>
 
 <div class="container">
-    <a onclick="openFile('individual.pdf')" class="card">Individual</a>
-    <a onclick="openFile('team.pdf')" class="card">Teams</a>
-    <a onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</a>
-    <a onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</a>
-    <a onclick="openFile('biggest.pdf')" class="card">Biggest Fish</a>
-    <a onclick="openFile('pairs.pdf')" class="card">Secret Pairs</a>
-    <a onclick="openFile('totals.pdf')" class="card">Total Stats</a>
-    <a onclick="openFile('performance.pdf')" class="card">Performance</a>
+    <div onclick="openFile('individual.pdf')" class="card">Individual</div>
+    <div onclick="openFile('team.pdf')" class="card">Teams</div>
+    <div onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</div>
+    <div onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</div>
+    <div onclick="openFile('biggest.pdf')" class="card">Biggest Fish</div>
+    <div onclick="openFile('pairs.pdf')" class="card">Secret Pairs</div>
+    <div onclick="openFile('totals.pdf')" class="card">Total Stats</div>
+    <div onclick="openFile('performance.pdf')" class="card">Performance</div>
 </div>
 
 <div id="overlay" onclick="closeAlert()"></div>
@@ -120,13 +117,15 @@
     function openFile(filename) {
         const finalUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/' + filename + '?v=' + new Date().getTime();
         
-        // HEAD check to see if the file exists before attempting to open
-        fetch(finalUrl, { method: 'HEAD' })
+        // Fetch the file as a 'blob' to trick the browser into viewing it natively
+        fetch(finalUrl)
         .then(res => {
-            if (res.ok) { 
-                window.open(finalUrl, '_blank'); 
-            } 
-            else { showAlert(); }
+            if (res.ok) return res.blob();
+            throw new Error();
+        })
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            window.open(blobUrl, '_blank');
         })
         .catch(() => showAlert());
     }
