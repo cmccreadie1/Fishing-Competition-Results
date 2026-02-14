@@ -8,9 +8,11 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
+            /* Darker overlay for text readability */
             background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
                         url('background.jpg');
             background-size: cover;
+            /* Focuses on the rod/reel on the right of your image */
             background-position: 75% center; 
             background-attachment: fixed;
             margin: 0;
@@ -59,6 +61,7 @@
             padding-top: 80px;
         }
 
+        /* Minimalist Typography Links */
         .card {
             font-size: 1.6rem;
             font-weight: 300;
@@ -69,6 +72,7 @@
             padding: 10px 20px;
             text-align: center;
             letter-spacing: 1px;
+            cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -77,6 +81,7 @@
             opacity: 0.4;
         }
 
+        /* Modal / Alert Styles */
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
         #alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -97,14 +102,14 @@
 </header>
 
 <div class="container">
-    <a href="#" onclick="openFile('individual.pdf')" class="card">Individual</a>
-    <a href="#" onclick="openFile('team.pdf')" class="card">Teams</a>
-    <a href="#" onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</a>
-    <a href="#" onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</a>
-    <a href="#" onclick="openFile('biggest.pdf')" class="card">Biggest Fish</a>
-    <a href="#" onclick="openFile('pairs.pdf')" class="card">Secret Pairs</a>
-    <a href="#" onclick="openFile('totals.pdf')" class="card">Total Stats</a>
-    <a href="#" onclick="openFile('performance.pdf')" class="card">Performance</a>
+    <div onclick="openFile('individual.pdf')" class="card">Individual</div>
+    <div onclick="openFile('team.pdf')" class="card">Teams</div>
+    <div onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</div>
+    <div onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</div>
+    <div onclick="openFile('biggest.pdf')" class="card">Biggest Fish</div>
+    <div onclick="openFile('pairs.pdf')" class="card">Secret Pairs</div>
+    <div onclick="openFile('totals.pdf')" class="card">Total Stats</div>
+    <div onclick="openFile('performance.pdf')" class="card">Performance</div>
 </div>
 
 <div id="overlay" onclick="closeAlert()"></div>
@@ -115,24 +120,26 @@
 
 <script>
     function openFile(filename) {
-        // Base URL for your specific GitHub Pages site
-        const baseUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/';
-        const finalUrl = baseUrl + filename + '?v=' + new Date().getTime();
+        // Direct path to your GitHub Pages site
+        const finalUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/' + filename + '?v=' + new Date().getTime();
         
+        // Use a hidden anchor to trigger native browser behavior
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { 
-                // Option 2: Wrap the PDF in Google's Viewer to force an in-browser preview
-                const googleViewerUrl = 'https://docs.google.com/viewer?embedded=true&url=' + encodeURIComponent(finalUrl);
-                window.open(googleViewerUrl, '_blank'); 
+                const link = document.createElement('a');
+                link.href = finalUrl;
+                link.target = '_blank';
+                link.rel = 'noopener noreferrer'; // Signals a safe, intentional link
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
             } 
             else { showAlert(); }
         })
         .catch(() => showAlert());
     }
-    function showAlert() { document.getElementById('overlay').style.display = 'block'; document.getElementById('alert-box').style.display = 'block'; }
-    function closeAlert() { document.getElementById('overlay').style.display = 'none'; document.getElementById('alert-box').style.display = 'none'; }
-</script>
 
-</body>
-</html>
+    function showAlert() { 
+        document.getElementById('overlay').style.display = 'block'; 
+        document.getElementById('alert-box').style.display = 'block';
