@@ -8,11 +8,9 @@
     <style>
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            /* Darker overlay for text readability */
             background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), 
                         url('background.jpg');
             background-size: cover;
-            /* Focuses on the rod/reel on the right of your image */
             background-position: 75% center; 
             background-attachment: fixed;
             margin: 0;
@@ -22,34 +20,34 @@
             justify-content: center;
             min-height: 100vh;
             color: white;
-            overflow-x: hidden;
+            overflow: hidden; /* Prevents accidental scrolling on the main hub */
         }
 
         header {
             position: absolute;
-            top: 50px;
+            top: 10vh; /* Scaled to screen height to avoid crowding */
             text-align: center;
             width: 100%;
+            z-index: 10;
         }
 
         header h1 { 
-            font-size: 1.1rem; 
+            font-size: 1rem; 
             font-weight: 600; 
-            letter-spacing: 4px; 
+            letter-spacing: 3px; 
             text-transform: uppercase;
             margin: 0;
             text-shadow: 0 2px 12px rgba(0,0,0,0.6);
-            padding: 0 30px;
-            line-height: 1.4;
+            padding: 0 20px;
         }
 
         header .sub { 
-            font-size: 0.75rem; 
+            font-size: 0.7rem; 
             font-weight: 300;
             letter-spacing: 2px;
             text-transform: uppercase;
             opacity: 0.8;
-            margin-top: 10px;
+            margin-top: 8px;
         }
 
         .container {
@@ -57,19 +55,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding-top: 80px;
+            gap: 8px; /* Tighter gap to prevent encroachment */
+            padding-top: 40px;
         }
 
-        /* Minimalist Typography Links */
+        /* Restored <a> tag for better compatibility and scaling */
         .card {
-            font-size: 1.6rem;
+            font-size: 1.35rem; /* Reduced size to prevent encroachment */
             font-weight: 300;
             text-decoration: none;
             color: white;
-            transition: all 0.4s ease;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.7);
-            padding: 10px 20px;
+            transition: all 0.3s ease;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+            padding: 8px 20px;
             text-align: center;
             letter-spacing: 1px;
             cursor: pointer;
@@ -77,19 +75,19 @@
         }
 
         .card:active {
-            letter-spacing: 5px;
+            letter-spacing: 3px;
             opacity: 0.4;
+            transform: scale(1.05);
         }
 
-        /* Modal / Alert Styles */
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; backdrop-filter: blur(8px); }
         #alert-box {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             text-align: center; width: 80%; z-index: 1000;
         }
-        #alert-box div { font-weight: 300; font-size: 1.8rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 30px; line-height: 1.4; }
+        #alert-box div { font-weight: 300; font-size: 1.5rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
         .btn-ok { 
-            display: inline-block; padding: 12px 40px; border: 1px solid rgba(255,255,255,0.4); 
+            display: inline-block; padding: 10px 30px; border: 1px solid rgba(255,255,255,0.4); 
             color: white; text-decoration: none; font-weight: 300; text-transform: uppercase; letter-spacing: 2px;
         }
     </style>
@@ -102,14 +100,14 @@
 </header>
 
 <div class="container">
-    <div onclick="openFile('individual.pdf')" class="card">Individual</div>
-    <div onclick="openFile('team.pdf')" class="card">Teams</div>
-    <div onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</div>
-    <div onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</div>
-    <div onclick="openFile('biggest.pdf')" class="card">Biggest Fish</div>
-    <div onclick="openFile('pairs.pdf')" class="card">Secret Pairs</div>
-    <div onclick="openFile('totals.pdf')" class="card">Total Stats</div>
-    <div onclick="openFile('performance.pdf')" class="card">Performance</div>
+    <a onclick="openFile('individual.pdf')" class="card">Individual</a>
+    <a onclick="openFile('team.pdf')" class="card">Teams</a>
+    <a onclick="openFile('zone1.pdf')" class="card">Day 1 Zones</a>
+    <a onclick="openFile('zone2.pdf')" class="card">Day 2 Zones</a>
+    <a onclick="openFile('biggest.pdf')" class="card">Biggest Fish</a>
+    <a onclick="openFile('pairs.pdf')" class="card">Secret Pairs</a>
+    <a onclick="openFile('totals.pdf')" class="card">Total Stats</a>
+    <a onclick="openFile('performance.pdf')" class="card">Performance</a>
 </div>
 
 <div id="overlay" onclick="closeAlert()"></div>
@@ -120,20 +118,13 @@
 
 <script>
     function openFile(filename) {
-        // Direct path to your GitHub Pages site
         const finalUrl = 'https://cmccreadie1.github.io/Fishing-Competition-Results/' + filename + '?v=' + new Date().getTime();
         
-        // Use a hidden anchor to trigger native browser behavior
+        // HEAD check to see if the file exists before attempting to open
         fetch(finalUrl, { method: 'HEAD' })
         .then(res => {
             if (res.ok) { 
-                const link = document.createElement('a');
-                link.href = finalUrl;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer'; // Signals a safe, intentional link
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                window.open(finalUrl, '_blank'); 
             } 
             else { showAlert(); }
         })
@@ -142,4 +133,14 @@
 
     function showAlert() { 
         document.getElementById('overlay').style.display = 'block'; 
-        document.getElementById('alert-box').style.display = 'block';
+        document.getElementById('alert-box').style.display = 'block'; 
+    }
+    
+    function closeAlert() { 
+        document.getElementById('overlay').style.display = 'none'; 
+        document.getElementById('alert-box').style.display = 'none'; 
+    }
+</script>
+
+</body>
+</html>
